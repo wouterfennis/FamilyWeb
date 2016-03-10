@@ -29,7 +29,7 @@ public class ContactServlet extends HttpServlet {
 	public static final String ENTER_AT_LEAST_ONE_CONTACT = "Voer minimaal één contact in voor de vragenlijst.";
 	public static final String WRONG_DATA_WITH_CONTACTS = "Gegevens kloppen niet van één of meerdere contacten.";
 	private User user = null;
-	
+
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -140,8 +140,9 @@ public class ContactServlet extends HttpServlet {
                     } catch (NumberFormatException e) {
                     }
                     // validate contact, if it went well create contact
-                    if (checkContact(name, role, age)){
-                        Contact c = new Contact(name, commentary, role,
+					Contact c = new Contact();
+                    if (c.checkContact(name, role, age)){
+                        c = new Contact(name, commentary, role,
                                 age, group,j);
                         c.setContact_id(id);
                         id++;
@@ -152,26 +153,5 @@ public class ContactServlet extends HttpServlet {
             }
         }
 		return b;
-	}
-
-	/**
-	 * Check contact information
-	 *
-	 * @param name the name
-	 * @param role the role
-	 * @param age the age
-	 * @return true, if successful
-	 */
-	private boolean checkContact(String name, String role, int age) {
-		boolean check = true;
-		// check name
-		check &= (name != null);
-		check &= (!name.equals(""));
-		// check role
-		check &= (role != null);
-		check &= (!role.equals(""));
-		// check age
-		check &= !(age <= 0);
-		return check;
 	}
 }
